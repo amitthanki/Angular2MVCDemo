@@ -1,0 +1,55 @@
+﻿    <h2>Form With Validation</h2>
+    <form [formGroup]="formValidation">
+     <div class="form-group">
+         <label>First Name</label>
+         <input class="form-control" type="text" formControlName="FirstName" />
+         <!--The HasError Method will tell us if a Particular error exists --!>-->
+         <div *ngIf="formValidation.controls['FirstName'].hasError('required') && formValidation.controls['FirstName'].touched" class="help-block">
+         You must include a first name.</div>
+     </div>
+        <div class="form-group" [ngClass]="{'has-error':formValidation.controls['LastName'].Invalid && formValidation.controls['LastName'].touched }">
+            <label>Last Name</label>
+            <input class="form-control" type="text" [formControl]="formValidation.controls['LastName']" />
+             <!--The hasError Method can work With built in Validators-->
+            <div *ngIf="formValidation.controls['LastName'].hasError('required') && formValidation.controls['LastName'].touched" class="help-block">
+                You must include a last name.
+            </div> 
+            <div *ngIf="formValidation.controls['LastName'].hasError('minlength') && formValidation.controls['LastName'].touched" class="help-block">
+                Last Name Required At least 4 Characters
+            </div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error':formValidation.controls['DOB'].invalid && formValidation.controls['DOB'].touched}">
+            <label>DOB</label>
+            <my-date-picker name="myDatePickerOptions" formControlName ="DOB" (dateChanged)="onDateChanged($event)" [options]="myDatePickerOptions"></my-date-picker>
+            <div *ngIf ="formValidation.controls['DOB'].hasError('required') && formValidation.controls['DOB'].touched" class="help-block">
+                DOB is Required
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Country</label>
+            <select class="form-control" formControlName ="Country" (change)="onselect($event.target.value)">
+                <option value= "">--Select--</option>
+                <option *ngFor="let country of countries" 
+                        value="{{country.id}}">{{country.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>State</label>
+            <select class="form-control" formControlName="State">
+                <option value="">--select--</option>
+                <option *ngFor="let state of states" value="{{state.id}}">{{state.name}}</option>
+            </select>
+        </div>    
+            <div class="form-group">
+                <label>Gender</label><br />
+                <input type="radio" value="male" formControlName="Gender" >Male<br />
+                <input type="radio" value="Female" formControlName="Gender" >Female
+            </div>      
+          <div class="form-group">
+            <label>Is Active</label>
+            <input type="checkbox" formControlName="IsActive" />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" [disabled]="!formValidation.valid" (click)="onSubmit(formValidation)">Submit</button>
+        </div>
+    </form>

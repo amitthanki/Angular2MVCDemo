@@ -1,0 +1,29 @@
+﻿<h1>Product</h1>
+
+<div class="form-group">
+    Search :- <input type="search" #search class="form-control" placeholder="Search" />
+</div>
+<div class='table-responsive'>
+    <table class='table table-striped'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of productList">
+                <td>{{product.ProductID}}</td>
+                <td>{{product.ProductName | lowercase}}</td>
+                <td>{{product.ProductCode | removeSpaces}}</td>               
+                <td><pm-star [rating] ='product.Rating'></pm-star>
+                <td>
+                    <button title="Edit" class="btn btn-primary" (click)="editUser(product.ProductID)">Edit</button>
+                    <button title="Delete" class="btn btn-danger" (click)="deleteUser(product.ProductID)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

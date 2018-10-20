@@ -1,0 +1,99 @@
+﻿<h2>Team Management</h2>
+<div class="form-group">
+    <label>Search</label>
+    <input type="text" class="form-control" /><br />
+    <button type="button" class="btn btn-primary" (click)="onChange()">Search</button>
+</div>
+<form [formGroup]="teamForm">
+    <div *ngIf="Mainerrors.length > 0" class="validation-summary">
+        <p>Please fix the following errors:</p>
+        <ul>
+            <li *ngFor="let error of Mainerrors">
+                {{error}}
+            </li>
+        </ul>
+    </div>
+    <div class="form-group">
+        <label>Team Name</label>
+        <input class="form-control" type="text" name="teamname"  formControlName="teamName" [(ngModel)]=" team.TeamName" />
+        <!--The HasError Method will tell us if a Particular error exists --!>-->
+    </div> 
+    <div class="form-group">
+        <label>Team Manager</label>
+        <input class="form-control" type="text" name="teammana" formControlName="teamManager" [(ngModel)]=" team.TeamManagerName" />
+        <!--The HasError Method will tell us if a Particular error exists --!>-->
+    </div> 
+    <b>Employee Details</b><br />
+    <button type="button" class="btn btn-primary" (click)="addEmployee()">Add</button>
+        <div class='table-responsive'>
+            <!--<div *ngIf='employees && employees.length==0' class="alert alert-info" role="alert">No record found!</div>-->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Emp No</th>
+                        <th>Emp Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let empDetail of team.employees">
+                        <td>{{empDetail.empId}}</td>
+                        <td>{{empDetail.empName}}</td>
+                        <td>
+                            <button title="Edit" class="btn btn-primary" (click)="editEmpDetails(empDetail.empId)">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <modal #modal>   
+         <div *ngIf="errors.length > 0" class="validation-summary">
+        <p>Please fix the following errors:</p>
+        <ul>
+            <li *ngFor="let error of errors">
+                {{error}}
+            </li>
+        </ul>
+           </div>
+            <div formGroupName="EmpDetails">
+                <modal-header [show-close]="true">
+                    <h4>{{modelTitle}}</h4>
+                </modal-header>
+                <div *ngIf='message!=""' class="alert alert-info" role="alert">{{message}}</div>
+                <modal-body>
+                    <div class="form-group">
+                        <label>Emp Id</label>
+                        <input type="text" name="empid" class="form-control" formControlName="empId" [readonly]= "readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label>Emp Name</label>
+                        <input type="text" name="empname" class="form-control" formControlName="empName" />
+                    </div>
+                    <!--<div class="form-group">
+                        <label>Country</label>
+                        <select class="form-control" formControlName="country" (change)="CountryDropdown($event.target.value)">
+                            <option value="">--Select--</option>
+                            <option *ngFor="let country of countries"
+                                    value="{{country.id}}">{{country.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group" *ngIf="IshideShow===true">
+                        <label>Other</label>
+                        <input type="text" name="other" class="form-control" formControlName="otherCountry" />
+                    </div>-->
+                </modal-body>
+                <modal-footer>
+                    <div>
+                        <a class="btn btn-default" (click)="modal.dismiss()">Cancel</a>
+                        <button type="submit" class="btn btn-primary" (click)="addEmpButton(EmpDetails)" >Submit</button>
+                    </div>
+                </modal-footer>
+            </div>            
+        </modal>
+    <button type="submit" class="btn btn-primary" (click)="FinalSubmit(teamForm)">Submit</button>&nbsp;
+    <button type="submit" class="btn btn-primary" (click)="onReset(teamForm)">Reset</button>
+
+ </form>
+
+
+
+
